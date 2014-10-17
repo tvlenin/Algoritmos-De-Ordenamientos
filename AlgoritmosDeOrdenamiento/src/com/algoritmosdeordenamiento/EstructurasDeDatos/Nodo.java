@@ -1,9 +1,9 @@
 package com.algoritmosdeordenamiento.EstructurasDeDatos;
 
 public class Nodo<E>{ //<E extends Comparable> implements Comparable<Nodo<E>>
-    protected E dato;
-    protected Nodo<E> siguiente;
-    protected Nodo<E> previo;
+    public E dato;
+    public Nodo<E> siguiente;
+    public Nodo<E> previo;
     
     
     public Nodo(E dato){
@@ -19,6 +19,10 @@ public class Nodo<E>{ //<E extends Comparable> implements Comparable<Nodo<E>>
     public void setData(E pData){
         this.dato = pData;
     }
+    public void setSiguiente(Nodo<E> pNodo){
+        this.siguiente = pNodo;
+    }
+    
     public E getDato(){
         return dato;
     }
@@ -30,12 +34,24 @@ public class Nodo<E>{ //<E extends Comparable> implements Comparable<Nodo<E>>
         return previo;
     }
 
-    /*@Override
-    public int compareTo(Nodo<E> t) {
-        System.out.println("adivine que");
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }*/
+    public boolean tienePrevio(){
+        boolean resp = false;
+        if(previo != null)
+            resp = true;
+        return resp;
+    }
+    public boolean estaEnExtremos(){
+        boolean resp= false;
+        if (siguiente==null || previo == null)
+            resp = true;
+        return resp;
+    }
+    public boolean tieneSiguiente(){
+        boolean resp = false;
+        if(siguiente != null)
+            resp = true;
+        return resp;
+    }
     
 }
 

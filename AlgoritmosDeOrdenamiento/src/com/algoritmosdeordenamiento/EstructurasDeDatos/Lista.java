@@ -88,6 +88,42 @@ public class Lista<E> { //<E extends Comparable>
         return nodoResp;
     }
     
+    public Nodo<E> getCentro(Nodo<E> A, Nodo<E> B){
+        if (cabeza == null)
+            return null;
+        if (talla == 3)
+            return cabeza.getSiguiente();
+        if(A.getSiguiente() == B)
+            return A;
+        Nodo resp = A;
+        int contador = 0;
+        for(Nodo<E> i = A ; i != B; i = i.getSiguiente()){
+            resp = resp.getSiguiente();
+            contador++;
+        }
+        resp = A;
+        for(int i=contador/2 ; contador > 0 ; contador--){
+            resp = resp.getSiguiente();
+        }
+        return resp;
+    }
+    public int getPos(Nodo<E> pNodo){
+        int resp = 0;
+        for (Nodo<E>i = pNodo; pNodo != null; pNodo=pNodo.getSiguiente())
+            resp++;
+        return resp;
+    }
+    public Nodo<E> getCentro(){
+        if (cabeza == null)
+            return null;
+        
+        Nodo<E> centro = cabeza;
+        for(int i =0; i < talla/2;i++){
+            centro= centro.getSiguiente();
+        }
+        return centro;
+    }
+    
     public boolean buscar(E x){
         boolean resp = false;
         for ( Nodo<E> tmp = cabeza; tmp != null; tmp = tmp.siguiente ) {
@@ -133,24 +169,46 @@ public class Lista<E> { //<E extends Comparable>
     public void intercambiarNodos(Nodo<E> i, Nodo<E> j){
         if(i == j)
             return ;//son iguales
-        
-        if(! (i==cabeza))  i.previo.siguiente = j;
-        if(! (j==cabeza))  j.previo.siguiente = i;
-        if(!(i==cola)) i.siguiente.previo= j;
-        if(!(j==cola)) j.siguiente.previo= i;
-        
-        if(i == cabeza) {cabeza = j;}
-        else if(j ==cabeza) cabeza = i;
-        if(i == cola) cola = j;
-        else if(j == cola) cola = i;
-        
-        Nodo<E> temp = i.previo;
-        
-        i.previo = j.previo;    
-        j.previo = temp;
-        temp = i.siguiente;
-        i.siguiente = j.siguiente;    
-        j.siguiente = temp;
+        if( i.estaEnExtremos() || j.estaEnExtremos() ){
+            E tmp = i.getDato();
+            i.dato= j.dato;
+            j.dato=tmp;
+        }
+        else if( i.getSiguiente() == j || j.getSiguiente()==i ){
+            i.previo.siguiente = j;
+            j.previo = i.previo;
+            
+            j.siguiente.previo = i;
+            i.siguiente = j.siguiente;
+            
+            i.previo = j;
+            j.siguiente = i;
+        }
+        else{
+            if(! (i==cabeza))  i.previo.siguiente = j;
+            
+            if(! (j==cabeza)){  
+                if (j.previo.siguiente != i){
+                    j.previo.siguiente = i;
+                }
+            }
+            
+            if(!(i==cola)) i.siguiente.previo= j;
+            if(!(j==cola)) j.siguiente.previo= i;
+
+            if(i == cabeza) {cabeza = j;}
+            else if(j ==cabeza) cabeza = i;
+            if(i == cola) cola = j;
+            else if(j == cola) cola = i;
+
+            Nodo<E> temp = i.previo;
+
+            i.previo = j.previo;    
+            j.previo = temp;
+            temp = i.siguiente;
+            i.siguiente = j.siguiente;    
+            j.siguiente = temp;
+        }
 }  
        
     public void mezclarTodosLosNodos(){
@@ -175,7 +233,23 @@ public class Lista<E> { //<E extends Comparable>
     public int getTalla(){
         return this.talla;
     } 
-
+    public int getDistancia(Nodo<E> pNodoA, Nodo<E> pNodoB){
+        int resp=0;
+        Nodo<E> iterador=pNodoA;
+        while(iterador != pNodoB || iterador != null){
+            iterador= iterador.getSiguiente();
+            resp++;
+        }
+        if(iterador==null){
+            resp=0;
+            iterador=pNodoB;
+            while(iterador != pNodoA || iterador == null){
+                resp++;
+                iterador= iterador.getSiguiente();
+            }
+        }
+        return resp;
+    }
 }
       
     

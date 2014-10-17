@@ -7,7 +7,7 @@ public class bubbleSort {
     
     public static <E extends Comparable> void aplicarBubbleSortLista(Lista<E> lista){
         boolean flag = true;   // set flag to true to begin first pass
-        while ( flag ){
+        while ( flag ){ 
             flag = false;    //set flag to false awaiting a possible swap
             for( Nodo<E> iterador = lista.getHead();  iterador.getSiguiente() != null;  iterador = iterador.getSiguiente() ){
                 if ( iterador.getDato().compareTo(iterador.getSiguiente().getDato()) > 0 ){   // change to > for ascending sort
